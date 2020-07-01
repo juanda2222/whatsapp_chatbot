@@ -17,27 +17,31 @@ with open(SECRETS_PATH) as json_data:
 
 # Your Account Sid and Auth Token from twilio.com/console
 # DANGER! This is insecure. See http://twil.io/secure
-def send_message(message:str, whatsapp_number, show_details = False):
+def send_message(message:str, whatsapp_number:str, show_details = False):
 
     if PRODUCTION == "True":
         account_sid = secrets_json["twilio_sid"]
         auth_token = secrets_json["twilio_auth_token"]
     else:
         # this are the testing credentials:
-        account_sid = 'AC4141eb88123944556c57516161f05bdb' 
-        auth_token = '4af4ec87ae208b4ab7fdd917ccf1a810'
+        account_sid = secrets_json["test_twilio_sid"]
+        auth_token = secrets_json["test_auth_token"]
 
     client = Client(account_sid, auth_token)
 
     message = client.messages \
         .create(
-            from_ = 'whatsapp:'+ secrets_json["whatsapp_number"],
+            from_ = 'whatsapp:'+ secrets_json["whatsapp_from"],
             body = message+"\n---Sended by Alice robot",
             to='whatsapp:' + whatsapp_number
         )
 
     if show_details:
-        print(message.sid)
+        print("----- Message SENDED -----")
+        print("Unique id sid:", message.sid)
+        print("Message body:", message.body)
+        print("Message _from:", message.from_)
+        print("Date of the message:", message.date_sent)
     
     return True
 
@@ -60,6 +64,7 @@ def read_messages(show_details = False):
     messages_list = list()
     for record in messages:
         if show_details:
+            print("----- Message READED -----")
             print("Unique id sid:", record.sid)
             print("Message body:", record.body)
             print("Message _from:", record.from_)
@@ -72,5 +77,5 @@ def read_messages(show_details = False):
 
 if __name__ == "__main__":
 
-    read_messages(show_details = True)    
+    # read_messages(show_details = True)    
     send_message("Hello from python", "+573183424676", show_details = True)

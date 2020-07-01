@@ -13,29 +13,26 @@ FUNCTION_PATH = str(Path(__file__).parent.parent)
 sys.path.append(FUNCTION_PATH)
 # import the functions to test
 # form <folder>.<file> import <function
-from whatsManager import read_messages, send_message
+from whatsManager import read_messages, send_message, secrets_json
 
 class TestWhatsappManager(unittest.TestCase):
 
-    def test_return_stament(self):
+    def test_send_whatsapp(self):
 
         # encode the data the same way gcloud process it:
-        data_bytes = "INPUT DATA".encode('utf-8')
-        print("data bytes: ", data_bytes)
-        data_bytes_64 = base64.b64encode(data_bytes)
-        print("data bytes encoded with 64 bits: ", data_bytes_64)
-
-        # create dumb objects as arguments with properties
-        test_event = {'data' : data_bytes_64} 
-        test_context = type('obj', (object,), {'event_id' : 123456, "timestamp":123345}) 
-        return_val = read_messages_function(test_event, test_context)
+        is_done = send_message("Test message", secrets_json["test_number"], show_details = True)
 
         # test the return value to see if everything went ok
-        self.assertEqual(return_val, True)
+        self.assertEqual(is_done, True)
 
     # other tests:
-    def test_other(self):
-        pass
+    def test_read_whatsapps(self):
+
+        # encode the data the same way gcloud process it:
+        message_list = read_messages(show_details = True)
+
+        # test the return value to see if everything went ok
+        self.assertEqual(type(message_list[0]), str)
 
 if __name__ == "__main__":
     unittest.main()

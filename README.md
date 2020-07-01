@@ -1,4 +1,3 @@
-
 # Chatbot for Whatsapp
 
 > A fully functional conversational chatbot for your buisness integrated with whatsapp.  
@@ -7,9 +6,12 @@
 
 Folow these steps to setup the project:
   
-1. All in one setup (`setup.bat`)
+1. Set up the Google Cloud Platform sdk in your machine
+2. Create a project and authenticate the terminal (needed to deploy to cloud)
+3. Set up a twilio account and a facebook buisness number
+3. All in one setup (`setup.bat`)
 
-The support is only currently working for windows but you can use the .bat scripts to generate your .sh
+The support is only currently working for windows but you can use the .bat scripts to generate your .sh.
 If you cant to debugg the process manually follow the next commands:
 
 ```sh
