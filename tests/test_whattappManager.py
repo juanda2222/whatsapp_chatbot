@@ -13,7 +13,7 @@ FUNCTION_PATH = str(Path(__file__).parent.parent)
 sys.path.append(FUNCTION_PATH)
 # import the functions to test
 # form <folder>.<file> import <function
-from whatsManager import read_messages, send_message, secrets_json
+from read_messages_function.whatsManager import read_messages, send_message, secrets_json
 
 class TestWhatsappManager(unittest.TestCase):
 

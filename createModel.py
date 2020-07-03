@@ -28,8 +28,8 @@ import numpy as np
 import pandas as pd
 
 # constant paths
-INTENTS_PATH = (Path(__file__).parent / "intents.json").absolute()
-TRAINING_DATA_PATH = (Path(__file__).parent / "training_data.pickle").absolute()
+INTENTS_PATH = (Path(__file__).parent / "read_messages_function/intents.json").absolute()
+TRAINING_DATA_PATH = (Path(__file__).parent / "read_messages_function/training_data.pickle").absolute()
 
 
 def create_training_data(show_details=False):
@@ -192,7 +192,6 @@ def create_training_data(show_details=False):
 
 
     # save all of our data structures
-    TRAINING_DATA_PATH = (Path(__file__).parent / "training_data.pickle").absolute()
     with open( TRAINING_DATA_PATH, "wb" ) as pickle_data:
         pickle.dump( {
             'in_binarizer':word_tokenizer, 
@@ -265,7 +264,7 @@ def create_model(show_details=False):
 
 
     # save the model to disk
-    MODEL_DATA_PATH = (Path(__file__).parent / "keras_model.h5").absolute()
+    MODEL_DATA_PATH = (Path("./read_messages_function/") / "keras_model.h5").absolute()
     model.save(MODEL_DATA_PATH)
 
     print("Model created! saved as: ", MODEL_DATA_PATH)

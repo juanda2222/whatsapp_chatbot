@@ -33,10 +33,6 @@ with open(INTENTS_FILE_PATH) as json_data:
 
 in_binarizer = training_data['in_binarizer']
 out_binarizer = training_data['out_binarizer']
-train_x = training_data['train_x']
-train_y = training_data['train_y']
-test_x = training_data['test_x']
-test_y = training_data['test_y']
 
 
 
@@ -100,9 +96,11 @@ class TextProcessor(object):
     def __init__(self, error_threshold:int = 0.6, start_context:dict = dict() ):
         
         # minimum match umbral
+        self.number_taggs = list()
         self.ERROR_THRESHOLD = error_threshold
         # create a data structure to hold user context
         self.context = start_context
+
 
 
     def classify(self, sentence, show_details=False):
@@ -110,6 +108,8 @@ class TextProcessor(object):
         # generate probabilities from the model
         results = model.predict(input_convert_text2binary(sentence))
         tagged_results = output_convert_binary2text(results[0])
+        self.number_taggs = len(tagged_results)
+
         if show_details:
             print("Raw results: ", results)
             print("Tagged results: ", tagged_results)
