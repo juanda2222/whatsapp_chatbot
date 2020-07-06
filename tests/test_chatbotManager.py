@@ -48,7 +48,6 @@ class TestChatbot(unittest.TestCase):
         print("Response", response)
         # test the return value to see if everything went ok
         self.assertEqual(type(response), str)
-
-
+    
 if __name__ == "__main__":
     unittest.main()

@@ -17,14 +17,19 @@ from createModel import create_model, create_training_data
 
 class TestCreateModel(unittest.TestCase):
 
-    def test_create_training_data(self):    
+    def _test_create_training_data(self):    
 
         is_created = create_training_data()
         self.assertTrue(is_created)
 
-    def test_create_model(self):
+    def _test_create_model(self):
         is_created = create_model()
         self.assertTrue(is_created)
+    
+    def do_both_tests(self):
+        self._test_create_training_data()
+        self._test_create_model()
+        self.assertTrue(True)
 
 if __name__ == "__main__":
     unittest.main()
