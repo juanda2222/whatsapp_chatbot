@@ -22,7 +22,7 @@ python createSecrets.py
   
 ## Usage example
 
-Every file works in a standalone way, to test it just run:
+Create your own secrets.json file and run setup.bat:
 ```
 git clone https://github.com/juanda2222/playground.git
 ```
