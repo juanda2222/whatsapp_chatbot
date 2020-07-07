@@ -16,7 +16,7 @@ PRODUCTION = os.getenv('PRODUCTION')
 FILE_DIR_PATH = os.path.dirname(os.path.realpath(__file__))
 
 
-def read_messages_function(event, context):
+def read_and_respond_messages(event, context):
     """Background Cloud Function to be triggered by Pub/Sub read_and_respond_wa_messages topic.
     Args:
          event (dict):  The dictionary with data specific to this type of

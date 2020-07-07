@@ -7,13 +7,13 @@ import unittest
 
 
 # generate the os independent path string
-FUNCTION_PATH = str(Path(__file__).parent.parent)
+PROJECT_PATH = str(Path(__file__).parent.parent.parent)
 
 # append the functions path to the search path
-sys.path.append(FUNCTION_PATH)
+sys.path.append(PROJECT_PATH)
 # import the functions to test
 # form <folder>.<file> import <function
-from createModel import create_model, create_training_data
+from create_model import create_model, create_training_data
 
 class TestCreateModel(unittest.TestCase):
 
@@ -26,7 +26,7 @@ class TestCreateModel(unittest.TestCase):
         is_created = create_model()
         self.assertTrue(is_created)
     
-    def do_both_tests(self):
+    def tests_do_both(self):
         self._test_create_training_data()
         self._test_create_model()
         self.assertTrue(True)

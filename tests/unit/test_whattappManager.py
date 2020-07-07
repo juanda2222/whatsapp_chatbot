@@ -7,13 +7,13 @@ import unittest
 
 
 # generate the os independent path string
-FUNCTION_PATH = str(Path(__file__).parent.parent)
+PROJECT_PATH = str(Path(__file__).parent.parent.parent)
 
 # append the functions path to the search path
-sys.path.append(FUNCTION_PATH)
+sys.path.append(PROJECT_PATH)
 # import the functions to test
 # form <folder>.<file> import <function
-from read_messages_function.whatsManager import read_messages, send_message, secrets_json
+from read_and_respond_messages.whatsManager import read_messages, send_message, secrets_json
 
 class TestWhatsappManager(unittest.TestCase):
 

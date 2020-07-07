@@ -7,13 +7,13 @@ import unittest
 
 
 # generate the os independent path string
-FUNCTION_PATH = str(Path(__file__).parent.parent)
+PROJECT_PATH = str(Path(__file__).parent.parent.parent)
 
 # append the functions path to the search path
-sys.path.append(FUNCTION_PATH)
+sys.path.append(PROJECT_PATH)
 # import the functions to test
 # form <folder>.<file> import <function
-from read_messages_function.main import read_messages_function
+from read_and_respond_messages.main import read_and_respond_messages
 
 class TestCloudFunction(unittest.TestCase):
 
@@ -28,7 +28,7 @@ class TestCloudFunction(unittest.TestCase):
         # create dumb objects as arguments with properties
         test_event = {'data' : data_bytes_64} 
         test_context = type('obj', (object,), {'event_id' : 123456, "timestamp":123345}) 
-        return_val = read_messages_function(test_event, test_context)
+        return_val = read_and_respond_messages(test_event, test_context)
 
         # test the return value to see if everything went ok
         self.assertEqual(return_val, True)

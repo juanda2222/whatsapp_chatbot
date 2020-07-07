@@ -8,13 +8,13 @@ import json
 
 
 # generate the os independent path string
-FUNCTION_PATH = str(Path(__file__).parent.parent)
+PROJECT_PATH = str(Path(__file__).parent.parent.parent)
 
 # append the functions path to the search path
-sys.path.append(FUNCTION_PATH)
+sys.path.append(PROJECT_PATH)
 # import the functions to test
 # form <folder>.<file> import <function
-from read_messages_function.chatbotManager import TextProcessor, input_convert_text2binary, output_convert_binary2text
+from read_and_respond_messages.chatbotManager import TextProcessor, input_convert_text2binary, output_convert_binary2text
 
 class TestChatbot(unittest.TestCase):
 
@@ -29,7 +29,7 @@ class TestChatbot(unittest.TestCase):
         
         print("Testing output formatting...")
         # import our chat-bot intents file
-        INTENTS_FILE_PATH = (Path(__file__).parent.parent / "read_messages_function/intents.json").absolute()
+        INTENTS_FILE_PATH = (Path(__file__).parent.parent.parent / "read_messages_function/intents.json").absolute()
         with open(INTENTS_FILE_PATH) as json_data:
             intents = json.load(json_data)
         # compare the size with the output file

@@ -73,10 +73,10 @@ def create_cron_job():
 
 def deploy_read_and_respond_function():
 
-    function_folder_path = Path("./read_messages_function")
+    function_folder_path = Path("./read_and_respond_messages")
 
     command = """ \
-     gcloud functions deploy read_messages_function \
+     gcloud functions deploy read_and_respond_messages \
     --runtime python37 \
     --project={} \
     --source="{}" \
@@ -84,7 +84,7 @@ def deploy_read_and_respond_function():
     --set-env-vars PRODUCTION=True \
     --retry \
     --timeout=400s \
-    --allow-unauthenticated
+    --allow-authenticated
     """.format(
         PROJECT_ID,
         function_folder_path,
@@ -96,6 +96,41 @@ def deploy_read_and_respond_function():
                                 shell=True) # this means is an executable progr
         
     print('------>> Return Code:', process.returncode)
+
+def deploy_on_message_received_function():
+
+    function_folder_path = Path("./on_message_received")
+
+    command = """ \
+     gcloud functions deploy on_message_received \
+    --runtime python37 \
+    --project={} \
+    --source="{}" \
+    --trigger-http \
+    --set-env-vars PRODUCTION=True \
+    --allow-unauthenticated \
+    """.format(
+        PROJECT_ID,
+        function_folder_path
+        )
+    process = subprocess.run(command, 
+                                #stdin =subprocess.PIPE, # to input dynamically
+                                stdout=subprocess.PIPE,
+                                text=True,
+                                shell=True) # this means is an executable progr
+
+    if process.returncode is not None:
+        print(process.stdout)
+        
+        # seach the line with the url
+        for line in process.stdout.split("\n"):
+            if "url" in line:
+                on_message_received_url = line.split(": ")[1]
+                print("Url obtained: ", on_message_received_url)
+                #on_message_received_url = filter(lambda char: "" if char is 
+    
+    print('------>> Return Code:', process.returncode)
+
 
 def excecute_free_form_command(command:str):
     process = subprocess.Popen(command, 
@@ -121,4 +156,5 @@ def excecute_free_form_command(command:str):
 if __name__ == "__main__":
     #create_and_configure_project()
     #create_cron_job()
-    deploy_read_and_respond_function()
+    #deploy_read_and_respond_function()
+    deploy_on_message_received_function()

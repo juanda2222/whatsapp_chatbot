@@ -6,6 +6,10 @@ import random
 import os
 import base64
 
+from flask import escape, abort
+
+from twilio.twiml.messaging_response import MessagingResponse
+
 # Set environment variables
 # os.environ['PRODUCTION'] = "True"
 
@@ -16,26 +20,20 @@ PRODUCTION = os.getenv('PRODUCTION')
 FILE_DIR_PATH = os.path.dirname(os.path.realpath(__file__))
 
 
-def on_message_received(event, context):
-    """Background Cloud Function to be triggered by Pub/Sub read_and_respond_wa_messages topic.
+def on_message_received(request):
+    """ Responds to an HTTP request using data from the request body parsed
+    according to the "content-type" header.
     Args:
-         event (dict):  The dictionary with data specific to this type of
-         event. The `data` field contains the PubsubMessage message. The
-         `attributes` field will contain custom attributes if there are any.
-         context (google.cloud.functions.Context): The Cloud Functions event
-         metadata. The `event_id` field contains the Pub/Sub message ID. The
-         `timestamp` field contains the publish time.
+        request (flask.Request): The request object.
+        <http://flask.pocoo.org/docs/1.0/api/#flask.Request>
+    Returns:
+        The response text, or any set of values that can be turned into a
+        Response object using `make_response`
+        <http://flask.pocoo.org/docs/1.0/api/#flask.Flask.make_response>.
     """
 
-    print("""This Function was triggered by messageId {} published at {}
-    """.format(context.event_id, context.timestamp))
-    print("Starting to read whatsapp messages...")
-
-    # process data inside the emessage pdu
-    if 'data' in event:
-        data = base64.b64decode(event['data']).decode('utf-8')
-        print("the data received is: ", data)
-
+    if request.method is not 'POST':
+        return abort(403) #http method not authenticated
     
     if PRODUCTION == "True":
         # Use a service account
@@ -47,6 +45,33 @@ def on_message_received(event, context):
         print("Developer dist")
 
     # common logic between prod and dev run
-    return True
+    content_type = request.headers['content-type']
+    print("Content type: ", content_type)
 
+    if content_type == 'application/json':
+        request_json = request.get_json(silent=True)
+        if request_json and 'name' in request_json:
+            name = request_json['name']
+        else:
+            raise ValueError("JSON is invalid, or missing a 'name' property")
+    elif content_type == 'application/octet-stream':
+        name = request.data
+    elif content_type == 'text/plain':
+        name = request.data
+    elif content_type == 'application/x-www-form-urlencoded':
+        name = request.form.get('name')
+    else:
+        raise ValueError("Unknown content type: {}".format(content_type))
+
+
+    # Start our TwiML response
+    resp = MessagingResponse()
+
+    # Add a message
+    resp.message("The Robots are coming! Head for the hills!")
+
+    return str(resp)
+
+    #return 'Hello {}!'.format(escape(name))
+    
     
