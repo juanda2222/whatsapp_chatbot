@@ -18,7 +18,7 @@ class TestIntegrationMessageReceived(unittest.TestCase):
     def test_public_call__on_message_received(self):
 
         # test the converters one at the time
-        url = 'https://www.w3schools.com/python/demopage.php'
+        url = "https://us-central1-whatsapp-chatbot-twilio.cloudfunctions.net/on_message_received"
         myobj = {'somekey': 'somevalue'}
 
         x = requests.post(url, data = myobj)

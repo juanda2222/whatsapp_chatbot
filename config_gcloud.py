@@ -84,7 +84,6 @@ def deploy_read_and_respond_function():
     --set-env-vars PRODUCTION=True \
     --retry \
     --timeout=400s \
-    --allow-authenticated
     """.format(
         PROJECT_ID,
         function_folder_path,
